@@ -1,0 +1,12 @@
+.side {
+  padding: 1rem;
+  background-color: #f8f8f8;
+}
+
+.side + .side {
+  padding-top: 1rem;
+}
+
+.content {
+  background-color: #fff;
+}
