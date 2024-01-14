@@ -3,6 +3,11 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "keywords": [
+    "dbscan",
+    "algorithm",
+    "dbscan-algorithm"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -27,3 +32,4 @@
     "vite": "^5.0.8"
   }
 }
+
