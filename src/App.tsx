@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Col, InputNumber, Layout, Row } from 'antd';
+import { Col, InputNumber, Layout, Row, Space } from 'antd';
 
+import { CANVAS_HEIGHT, CANVAS_WIDTH } from './constants/canvasVars';
 import { DBSCAN } from './components/DBSCAN/DBSCAN.tsx';
 import generatePoints from './utils/generatePoints';
+import KMeans from './components/KMeans/KMeans.tsx';
 import { PointType } from 'types/PointType';
-import { CANVAS_HEIGHT, CANVAS_WIDTH } from './constants/canvasVars';
 
 import './App.css';
 
@@ -20,24 +21,23 @@ function App() {
   return (
     <Layout>
       <Row>
-        <Col className='side'>
-          Points count&nbsp;
-          <InputNumber
-            value={num}
-            onChange={(val) => val && setNum(val)}
-            min={3}
-          />
+        <Col
+          className='side'
+          span={4}
+          style={{ display: 'flex', justifyContent: 'space-between' }}
+        >
+          <Space direction='horizontal' className='space-between'>
+            <span>Points count</span>
+            <InputNumber
+              value={num}
+              onChange={(val) => val && setNum(val)}
+              min={3}
+            />
+          </Space>
         </Col>
       </Row>
       <DBSCAN points={points} />
-      <Row>
-        <Col className={'side'} span={4}>
-          2
-        </Col>
-        <Col className={'content'} span={20}>
-          4
-        </Col>
-      </Row>
+      <KMeans points={points} />
     </Layout>
   );
 }

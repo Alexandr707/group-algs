@@ -1,0 +1,8 @@
+.db-block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.db-block + .db-block {
+  margin-top: 0.5rem;
+}

@@ -10,3 +10,13 @@
 .content {
   background-color: #fff;
 }
+
+.space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  padding-left: 1rem;
+  padding-top: 1rem;
+}

@@ -6,7 +6,9 @@
   "keywords": [
     "dbscan",
     "algorithm",
-    "dbscan-algorithm"
+    "dbscan-algorithm",
+    "k-means",
+    "k-means-algorithm"
   ],
   "scripts": {
     "dev": "vite",

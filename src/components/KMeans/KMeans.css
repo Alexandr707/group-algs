@@ -1,0 +1,8 @@
+.km-block {
+  display: flex;
+  justify-content: space-between;
+}
+
+.km-block + .km-block {
+  margin-top: 0.5rem;
+}

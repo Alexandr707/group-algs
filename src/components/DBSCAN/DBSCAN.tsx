@@ -6,6 +6,8 @@ import { colors } from '../../constants/colors';
 import { NOISE, dbscan } from '../../utils/dbscan';
 import { PointType } from 'types/PointType';
 
+import './DBSCAN.css';
+
 type DBSCANPropsType = {
   points: PointType[];
 };
@@ -42,17 +44,20 @@ export const DBSCAN: FC<DBSCANPropsType> = ({ points }) => {
   }, [points, eps, density]);
 
   return (
-    <Row>
-      <Col className={'side'} span={4}>
-        <Space direction='vertical'>
-          <div>
-            Epsilum{' '}
+    <>
+      <Row className='title'>
+        <h2>DBSCAN</h2>
+      </Row>
+      <Row>
+        <Col className={'side'} span={4}>
+          <Space className='db-block' direction='horizontal'>
+            <span>Epsilum</span>
             <InputNumber
               value={eps}
               onChange={(val) => val && setEps(val)}
               min={1}
             />
-          </div>
+          </Space>
           <Slider
             value={density}
             onChange={(val) => val && setDensity(val)}
@@ -61,11 +66,11 @@ export const DBSCAN: FC<DBSCANPropsType> = ({ points }) => {
             tooltip={{ formatter: null }}
             marks={marks}
           />
-        </Space>
-      </Col>
-      <Col className={'content'} span={20}>
-        <Canvas id='dbscan' groups={groups} />
-      </Col>
-    </Row>
+        </Col>
+        <Col className={'content'} span={20}>
+          <Canvas id='dbscan' groups={groups} />
+        </Col>
+      </Row>
+    </>
   );
 };

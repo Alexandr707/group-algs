@@ -9,3 +9,7 @@
 
 ![DBSCAN](/public/dbscan.png 'DBSCAN')
 
+### k-means example
+
+![k-means](/public/k-means.png 'k-means')
+
