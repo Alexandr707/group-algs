@@ -7,7 +7,7 @@
 
 ### DBSCAN example
 
-![DBSCAN](/public/dbscan_2.png.png 'DBSCAN')
+![DBSCAN](/public/dbscan_2.png 'DBSCAN')
 
 ### k-means example
 
