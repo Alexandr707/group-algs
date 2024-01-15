@@ -3,7 +3,7 @@ import { Col, InputNumber, Row, Slider, SliderSingleProps, Space } from 'antd';
 
 import { Canvas, CanvasPointType } from '../Canvas/Canvas';
 import { colors } from '../../constants/colors';
-import { NOISE, dbscan } from '../../utils/dbscan';
+import { dbscan } from '../../utils/dbscan';
 import { PointType } from 'types/PointType';
 
 import './DBSCAN.css';
@@ -30,16 +30,17 @@ export const DBSCAN: FC<DBSCANPropsType> = ({ points }) => {
   useEffect(() => {
     const result = dbscan(points, eps, density, (el) => el);
 
-    const gr: CanvasPointType[][] = Object.keys(result).map((key) =>
-      result[key].map((p): CanvasPointType => {
-        const color =
-          p.cluster === NOISE ? '#333' : colors[p.cluster % colors.length];
+    const gr: CanvasPointType[][] = Object.keys(result).map((key) => {
+      const cluster = +key;
+      return result[key].map((p): CanvasPointType => {
+        const color = cluster < 0 ? '#333' : colors[cluster % colors.length];
         return {
-          coords: p.point,
+          coords: p,
           color,
         };
-      })
-    );
+      });
+    });
+
     setGroups(gr);
   }, [points, eps, density]);
 

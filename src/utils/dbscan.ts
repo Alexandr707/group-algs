@@ -10,12 +10,12 @@ export const NOISE = -2;
 
 type DBSCAN_Point = {
   point: [number, number];
-  cluster: number;
+  cluster?: number;
 };
 
-type GroupType = {
-  [key: string]: DBSCAN_Point[];
-};
+interface GroupType<T> {
+  [key: string]: T[];
+}
 
 function squareDistanse(p1: [number, number], p2: [number, number]) {
   return Math.pow(p2[0] - p1[0], 2) + Math.pow(p2[1] - p1[1], 2);
@@ -38,7 +38,7 @@ export function dbscan<T>(
 ) {
   const dataMap = new Map<DBSCAN_Point, T>();
   for (const elem of data) {
-    dataMap.set({ point: getCoords(elem), cluster: -1 }, elem);
+    dataMap.set({ point: getCoords(elem) }, elem);
   }
 
   const points = Array.from(dataMap.keys());
@@ -46,6 +46,7 @@ export function dbscan<T>(
   let c = 0; //метка кластера
   for (const point of points) {
     if (point.cluster === NOISE) continue;
+    if (point.cluster !== undefined) continue;
 
     // список всех соседей к данной точки
     const neighbors = rangeQuery(points, point, eps, getDist);
@@ -64,8 +65,13 @@ export function dbscan<T>(
     let seed_point = seed[index];
     // проверка соседей точки
     while (seed_point) {
-      if (seed_point.cluster !== undefined && seed_point.cluster !== NOISE) {
+      if (seed_point.cluster === NOISE) {
         seed_point.cluster = c;
+        index++;
+        seed_point = seed[index];
+        continue;
+      }
+      if (seed_point.cluster !== undefined) {
         index++;
         seed_point = seed[index];
         continue;
@@ -85,35 +91,18 @@ export function dbscan<T>(
     }
   }
 
-  const groups: GroupType = {};
+  const groups: GroupType<T> = {};
   points.forEach((p) => {
+    if (!p.cluster) p.cluster = -3;
     if (!groups[p.cluster]) groups[p.cluster] = [];
-    groups[p.cluster].push(p);
+    groups[p.cluster].push(dataMap.get(p)!);
   });
 
   return groups;
-
-  // if (!groups[NOISE]) groups[NOISE] = [];
-
-  // Object.keys(groups).forEach((key) => {
-  //   if (
-  //     key !== NOISE.toString() &&
-  //     groups[key] &&
-  //     groups[key].length < min_points
-  //   ) {
-  //     groups[NOISE].push(...groups[key]);
-  //     groups[key].forEach((p) => (p.cluster = NOISE));
-  //     delete groups[key];
-  //   }
-  // });
-  // return Object.values(groups).map((group) =>
-  //   group.map((p) => dataMap.get(p)!)
-  // );
 }
 
 /**
  * поиск всех соседей точки, которые удовлетворяют условиям плотности
- * @returns {Array}
  */
 function rangeQuery(
   points: DBSCAN_Point[],
